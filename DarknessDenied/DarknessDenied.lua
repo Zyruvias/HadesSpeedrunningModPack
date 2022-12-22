@@ -9,7 +9,7 @@ ModUtil.Mod.Register("DarknessDenied")
 
 local config = {
     RemoveDarkness = false, -- If true, RemoveInstadarkness does nothing
-    RemoveInstadarkness = false,
+    RemoveInstadarkness = true,
 }
 DarknessDenied.config = config
 

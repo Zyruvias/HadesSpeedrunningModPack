@@ -8,7 +8,7 @@
 ModUtil.Mod.Register("WellControl")
 
 local config = {
-    WellSetting = "Vanilla"
+    WellSetting = "Hypermodded"
 }
 WellControl.config = config
 

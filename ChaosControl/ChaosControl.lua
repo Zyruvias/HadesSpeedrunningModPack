@@ -9,7 +9,7 @@
 ModUtil.Mod.Register("ChaosControl")
 
 local config = {
-  ChaosSetting = "Vanilla"
+  ChaosSetting = "Hypermodded"
 }
 ChaosControl.config = config --TODO add config option in menu
 ChaosControl.EligibleBlessings = {}

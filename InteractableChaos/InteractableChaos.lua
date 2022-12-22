@@ -2,7 +2,7 @@ ModUtil.Mod.Register("InteractableChaos")
 
 local config = {
   ModName = "Interactable Chaos",
-  Enabled = true
+  Enabled = false
 }
 InteractableChaos.config = config
 

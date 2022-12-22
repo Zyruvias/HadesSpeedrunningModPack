@@ -9,7 +9,7 @@
 ModUtil.Mod.Register("EnemyControl")
 
 local config = {
-    EnemySetting = "Vanilla"
+    EnemySetting = "Hypermodded2"
 }
 EnemyControl.config = config --TODO add config option in menu
 EnemyControl.EligibleEnemies = {}
