@@ -8,3 +8,4 @@ Load Priority 999999
   Import "SettingsHashMenu.lua"
   Import "HSMConfigMenu.lua"
   Import "AttributionAndNotes.lua"
+  Import "HypermoddedMenu.lua"
