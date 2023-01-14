@@ -63,7 +63,7 @@ function QuickRestart.ResetRun(triggerArgs)
     Kill( CurrentRun.Hero, triggerArgs )
 end
 
-OnControlPressed{ "Assist",
+OnControlPressed{ "Assist Use Shout Reload",
     function(triggerArgs)
         if config.Enabled then
             if IsControlDown({ Name = "Assist" })
@@ -73,43 +73,8 @@ OnControlPressed{ "Assist",
                 QuickRestart.ResetRun(triggerArgs)
             end
         end
-end}
-
-OnControlPressed{ "Use",
-    function(triggerArgs)
-        if config.Enabled then
-            if IsControlDown({ Name = "Assist" })
-                    and IsControlDown({ Name = "Use" })
-                    and IsControlDown({ Name = "Shout" })
-                    and IsControlDown({ Name = "Reload" }) then
-                QuickRestart.ResetRun(triggerArgs)
-            end
-        end
-end}
-
-OnControlPressed{ "Shout",
-    function(triggerArgs)
-        if config.Enabled then
-            if IsControlDown({ Name = "Assist" })
-                    and IsControlDown({ Name = "Use" })
-                    and IsControlDown({ Name = "Shout" })
-                    and IsControlDown({ Name = "Reload" }) then
-                QuickRestart.ResetRun(triggerArgs)
-            end
-        end
-end}
-
-OnControlPressed{ "Reload",
-    function(triggerArgs)
-        if config.Enabled then
-            if IsControlDown({ Name = "Assist" })
-                    and IsControlDown({ Name = "Use" })
-                    and IsControlDown({ Name = "Shout" })
-                    and IsControlDown({ Name = "Reload" }) then
-                QuickRestart.ResetRun(triggerArgs)
-            end
-        end
-end}
+    end
+}
 
 OnAnyLoad{ "RoomPreRun",
     function ( triggerArgs )
