@@ -4,6 +4,7 @@ local config = {
     Enabled = true,
     KeepStartingKeepsake = true,
     QuickDeathEnabled = true,
+    BoonInfoButtonEnabled = false,
 }
 
 QuickRestart.config = config
@@ -145,13 +146,51 @@ ModUtil.Path.Context.Wrap("HandleDeath", function ()
             if QuickRestart.KeepStartingKeepsake and GameState.QuickRestartStartingKeepsake then
               GameState.LastAwardTrait = GameState.QuickRestartStartingKeepsake
             end
-          end
+        end
 
-          -- Set UsedQuickRestart Flag so Keepsake and InputBlock are appropriately set.
-          if quickDeathApplicable then
-              QuickRestart.UsedQuickRestart = true
-          end
+        -- Set UsedQuickRestart Flag so Keepsake and InputBlock are appropriately set.
+        local quickDeathApplicable = config.QuickDeathEnabled and not currentRun.Cleared
+        if quickDeathApplicable then
+            QuickRestart.UsedQuickRestart = true
+        end
+        
+        baseFunc(argTable)
     end, QuickRestart)
+end, QuickRestart)
+
+-- Mimic Modpack Menu button as
+ModUtil.Path.Wrap("CreatePrimaryBacking", function (baseFunc)
+    -- Only show button during runs
+    if ModUtil.Path.Get("CurrentDeathAreaRoom")
+        -- and if enabled by the user
+        or not QuickRestart.config.BoonInfoButtonEnabled
+    then
+        return baseFunc()
+    end
+
+    local components = ScreenAnchors.TraitTrayScreen.Components
+    components.ModConfigButton = CreateScreenComponent({
+        Name = "ButtonDefault",
+        Scale = 0.8,
+        Group = "Combat_Menu_TraitTray",
+        X = CombatUI.TraitUIStart + 135,
+        Y = 185 })
+    components.ModConfigButton.OnPressedFunctionName = "QuickRestart.ResetRun"
+    CreateTextBox({ Id = components.ModConfigButton.Id,
+        Text = "This Run Sucks",
+        OffsetX = 0, OffsetY = 0,
+        FontSize = 22,
+        Color = Color.White,
+        Font = "AlegreyaSansSCRegular",
+        ShadowBlur = 0, ShadowColor = {0,0,0,1}, ShadowOffset={0, 2},
+        Justification = "Center",
+        DataProperties =
+        {
+            OpacityWithOwner = true,
+        },
+        })
+    Attach({ Id = components.ModConfigButton.Id, DestinationId = components.ModConfigButton, OffsetX = 500, OffsetY = 500 })
+    baseFunc()
 end, QuickRestart)
 
 ModUtil.Path.Wrap("WindowDropEntrance", function( baseFunc, ... )

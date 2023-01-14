@@ -168,6 +168,46 @@ function HSMConfigMenu.CreateQolMenu(screen)
   itemLocationY = itemLocationY + itemSpacingY
 
   -----------------------------
+  -- Enable boon-screen reset button
+  -----------------------------
+  screen.Components["BoonInfoScreenResetButtonEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu" })
+  CreateTextBox({
+    Id = screen.Components["BoonInfoScreenResetButtonEnabledTextBox"].Id,
+    Text = "Add Quick Restart button to Boon Info screen",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left",
+  })
+  CreateTextBox({
+    Id = screen.Components["BoonInfoScreenResetButtonEnabledTextBox"].Id,
+    Text = "(recommended only if your keyboard has issues with the original Quick Reset inputs) ",
+    Color = Color.BoonPatchCommon,
+    FontSize = 10,
+    OffsetX = 0, OffsetY = 22,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left",
+  })
+  screen.Components["BoonInfoScreenResetButtonEnabledCheckBox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX,
+    Y = itemLocationY,
+    Group = "CombatMenu"
+  })
+  screen.Components["BoonInfoScreenResetButtonEnabledCheckBox"].Config = "QuickRestart.config.BoonInfoButtonEnabled"
+  screen.Components["BoonInfoScreenResetButtonEnabledCheckBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["BoonInfoScreenResetButtonEnabledCheckBox"])
+  itemLocationY = itemLocationY + itemSpacingY
+  -----------------------------
   -- Quick Restart on Death
   -----------------------------
 
