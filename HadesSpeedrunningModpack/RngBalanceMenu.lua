@@ -409,11 +409,12 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Justification = "Left"
   })
 
+  local initialMinibossSettings = MinibossControl.config.MinibossSetting
   local minibossDropdownOptions = {["Default"] = {
     event = function(dropdown)
-      MinibossControl.config.MinibossSetting = "Leaderboard"
+      MinibossControl.config.MinibossSetting = initialMinibossSettings
     end,
-    Text = "Leaderboard",
+    Text = initialMinibossSettings,
   }}
   for k, v in pairs(MinibossControl.Presets) do
     table.insert(minibossDropdownOptions,

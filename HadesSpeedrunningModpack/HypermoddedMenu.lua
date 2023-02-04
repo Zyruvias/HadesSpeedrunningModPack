@@ -1,3 +1,17 @@
+HypermoddedMenu = {
+  UIComponents = {},
+  Keys = {
+    SecondGodDropdown = "SecondGodDropdown",
+    WeaponListDropdown = "WeaponListDropdown",
+    AspectListDropdown = "AspectListDropdown",
+    HermesDropdown = "HermesDropdown",
+    FirstHammerDropdown = "FirstHammerDropdown",
+    SecondHammerDropdown = "SecondHammerDropdown",
+  },
+  CurrentAspect = nil,
+  CurrentWeapon = nil,
+}
+
 function HSMConfigMenu.CreateHypermoddedMenu( screen )
     local rowStartX = 250
     local itemLocationX = rowStartX
@@ -27,11 +41,12 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
         Group = "Combat_Menu"
     })
 
+    local initialChaosSetting = ChaosControl.config.ChaosSetting
     local chaosDropdownOptions = {["Default"] = {
         event = function(dropdown)
-            ChaosControl.config.ChaosSetting = "Vanilla"
+            ChaosControl.config.ChaosSetting = initialChaosSetting
         end,
-        Text = "Vanilla",
+        Text = initialChaosSetting,
       }}
       for k, v in pairs(ChaosControl.Presets) do
         table.insert(chaosDropdownOptions,
@@ -159,17 +174,18 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
         Justification = "Left"
     })
 
+    local initialEnemyControlSetting = EnemyControl.config.EnemySetting
     local enemyControlOptions = {["Default"] = {
         event = function(dropdown)
-            EnemyControl.config.EnemySetting = "Vanilla"
+            EnemyControl.config.EnemySetting = initialEnemyControlSetting
         end,
-        Text = "Default",
+        Text = initialEnemyControlSetting,
       }}
       for k, v in pairs(EnemyControl.Presets) do
         table.insert(enemyControlOptions,
           {
             event = function(dropdown)
-                EnemyControl.config.ChaosSetting = k
+                EnemyControl.config.EnemySetting = k
             end,
             Text = k
           })
@@ -327,11 +343,12 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
         Justification = "Left"
     })
 
+    local initialWellControlOptions = WellControl.config.WellSetting
     local wellControlOptions = {["Default"] = {
         event = function(dropdown)
-            WellControl.config.WellSetting = "Vanilla"
+            WellControl.config.WellSetting = initialWellControlOptions
         end,
-        Text = "Default",
+        Text = initialWellControlOptions,
       }}
       for k, v in pairs(WellControl.Presets) do
         table.insert(wellControlOptions,
@@ -390,60 +407,27 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
     itemLocationY = itemLocationY + itemSpacingY
 end
 
-function CreateForceSecondGodConfigMenu( screen )
-  if ForceSecondGod.config.Enabled then
-      local nrows = 4
-      local idx = 0
-
-      -- TODO - assert dependency / warning message if not
-      for i = 1, TableLength(RunStartControl.WeaponAspectData) do
-        local weaponData = RunStartControl.WeaponAspectData[i]
-        for j = 1, TableLength(weaponData.Aspects) do
-            local aspectID = weaponData.Aspects[j]
-            local gridX = math.ceil((idx+1) / nrows)
-            local gridY = idx % nrows + 1
-            CreateSecondGodPicker( screen, aspectID, gridX, gridY)
-            idx = idx + 1
-        end
-      end
-  end
-end
-
-local menuXPositions = {
-  200, 504, 808, 1112, 1416, 1720
-}
-local menuYPositions = {
-  400, 580, 760, 940
-}
-
-function CreateSecondGodPicker( screen, aspect, gridX, gridY)
-  local xpos = menuXPositions[gridX]
-  local ypos = menuYPositions[gridY]
-
-  local gods = { "Aphrodite", "Ares", "Artemis", "Athena", "Demeter", "Dionysus", "Poseidon", "Zeus"}
-  local defaultGod = ForceSecondGod.config.AspectSettings[RCLib.CodeToName.Aspects[aspect]]
+function CreateSecondGodPicker( screen, aspect, xpos, ypos)
+  DebugPrint{ Text = (aspect or "nil") .. " in CreateSecondGodPicker" .. ypos .. " " .. xpos}
+  local gods = BoonControl.BoonGods
+  local defaultGod = ForceSecondGod.config.AspectSettings[aspect]
   local godOptions = {["Default"] = {
     event = function(dropdown)
-      ForceSecondGod.config.AspectSettings[RCLib.CodeToName.Aspects[aspect]] = defaultGod
+      ForceSecondGod.config.AspectSettings[aspect] = defaultGod
     end,
     Text = defaultGod,
   }}
-  -- TODO: Get defauly by config or save data
-  -- local godOptions = {}
-  -- aspectName = RCLib.CodeToName
-  -- ForceSecondGod.config.AspectSettings
   for i, god in pairs(gods) do
     table.insert(godOptions,
       {
         event = function(dropdown)
-            -- ChaosControl.config.ChaosSetting = god
-            ForceSecondGod.config.AspectSettings[RCLib.CodeToName.Aspects[aspect]] = god
+            ForceSecondGod.config.AspectSettings[aspect] = god
         end,
         Text = god
       })
   end
 
-  ErumiUILib.Dropdown.CreateDropdown(screen, {
+  HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.SecondGodDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
     Name = "GodDropdown"..aspect,
     Group = "Combat_Menu",  
     Scale = {X = .25, Y = .5},
@@ -453,45 +437,7 @@ function CreateSecondGodPicker( screen, aspect, gridX, gridY)
     Font = "AlegrayaSansSCRegular",
     Items = godOptions
   })
-
-  --Icon Display
-  screen.Components["AspectIcon"..aspect] = CreateScreenComponent({ Name = "BlankObstacle", Scale = 0.8, Group = "Combat_Menu", X = xpos, Y = ypos - 90 })
-  local aspectIcon = TraitData[aspect].Icon .. "_Large"
-  SetAnimation({ DestinationId = screen.Components["AspectIcon"..aspect].Id, Name = aspectIcon})
   
-end
-
-function HSMConfigMenu.CreateForceSecondGodMenu (screen )
-  local rowStartX = 250
-  local itemLocationX = rowStartX
-  local itemLocationY = 250
-  local itemSpacingX = 250
-  local itemSpacingY = 65
-
-  if not ForceSecondGod.config.Enabled then
-    -- Create "menu disabled" text
-    screen.Components["ForceSecondGodMenuDisabledTextBox"] = CreateScreenComponent({
-      Name = "BlankObstacle",
-      Scale = 1,
-      X = itemLocationX,
-      Y = itemLocationY,
-      Group = "Combat_Menu"
-    })
-    CreateTextBox({
-        Id = screen.Components["ForceSecondGodMenuDisabledTextBox"].Id,
-        Text = "Enable \"Enable Choice of Second God\" setting to use this menu.",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-    })
-    return
-  end
-  -- Create menu
-  CreateForceSecondGodConfigMenu(screen)
-
 end
 
 function HSMConfigMenu.CreateBoonControlMenu ( screen )
@@ -742,7 +688,275 @@ function UpdateDropdown( screen, dropdown, options, newSetValue )
   end
 end
 
-function HSMConfigMenu.CreateHermesMenu ( screen )
+function GetHermesDropdownOptions ( aspect )
+  DebugPrint { Text = "GetHermesDropdownOptions for: " .. (aspect or "nil")}
+  local hermesBoonOptions = {["Default"] = {
+    event = function(dropdown)
+      BoonControl.config.AspectSettings[aspect].BoonSetting = BoonControl.config.AspectSettings[aspect].BoonSetting
+    end,
+    Text = BoonControl.config.AspectSettings[aspect].BoonSetting
+  }}
+  
+  for k, v in pairs(BoonControl.BoonPresets) do
+    table.insert(hermesBoonOptions, {
+      event = function (dropdown)
+        BoonControl.config.AspectSettings[aspect].BoonSetting = k
+      end,
+      Text = k
+    })
+  end
+  return hermesBoonOptions
+end
+
+function GetSecondGodDropdownOptions ( aspect )
+  local gods = BoonControl.BoonGods
+  local defaultGod = ForceSecondGod.config.AspectSettings[aspect]
+  local godOptions = {["Default"] = {
+    event = function(dropdown)
+      ForceSecondGod.config.AspectSettings[aspect] = defaultGod
+    end,
+    Text = defaultGod,
+  }}
+  for i, god in pairs(gods) do
+    table.insert(godOptions,
+      {
+        event = function(dropdown)
+            ForceSecondGod.config.AspectSettings[aspect] = god
+        end,
+        Text = god
+      })
+  end
+  return godOptions
+end
+
+function GetHammerDropdownOptions( aspectName, index )
+  -- trait name list
+  DebugPrint { Text = "GetHammerDropdownOptions for " .. (aspectName or "nil")}
+  -- local aspectName = RCLib.CodeToName.Aspects[aspect]
+  local hammers = BoonControl.HammerOptions[aspectName]
+  -- trait
+
+  local hammerSetString = ""
+  local defaultHammerName = BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name
+  local defaultHammerTrait = RCLib.NameToCode.Hammers[defaultHammerName]
+  local hammerOptions = {["Default"] = {
+    event = function(dropdown)
+      BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name = defaultHammerName
+    end,
+    Text = defaultHammerTrait, -- translated by UI framework to full Display Name
+  }}
+
+  local otherIndex = 3 - index
+  local otherHammerName = BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[otherIndex][1].Name
+  local otherHammerTrait = RCLib.NameToCode.Hammers[defaultHammerName]
+  for i, hammerTrait in pairs(hammers) do
+    local hammerName = RCLib.CodeToName.Hammers[hammerTrait]
+    if hammerTrait ~= otherHammerTrait then
+      hammerSetString = hammerSetString .. " " .. hammerTrait
+      table.insert(hammerOptions,
+      {
+        event = function(dropdown)
+          BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name = hammerName
+        end,
+        Text = hammerTrait
+      })
+    end
+  end
+  DebugPrint { Text = "Returning " .. hammerSetString}
+  return hammerOptions
+end
+
+function RefreshUIComponents ( screen, args )
+  --[[
+  args: {
+    ComponentsToRefresh: HypermoddedMenu.UIComponents.Keys[]
+  }
+  ]]--
+  local weaponType = HypermoddedMenu.CurrentWeapon
+  local aspect = HypermoddedMenu.CurrentAspect
+  local currentAspectName = RCLib.CodeToName.Aspects[aspect]
+  local weaponIndex = nil
+  for k, v in ipairs(BoonControl.WeaponAspectData) do
+    if v.Name == HypermoddedMenu.CurrentWeapon then
+      weaponIndex = k
+      break
+    end
+  end
+
+  DebugPrint { Text = "Refreshing UI Components: " .. ModUtil.ToString.Deep(args)}
+
+  
+  -------------------------
+  -- Refresh Aspect Icon --
+  -------------------------
+  DebugPrint { Text = "Changing Aspect Icon display to: " .. (HypermoddedMenu.CurrentAspect or "nil")}
+  SetAnimation({
+    DestinationId = screen.Components["AspectIcon"].Id,
+    Name = TraitData[HypermoddedMenu.CurrentAspect].Icon .. "_Large"
+  })
+  ----------------------------------
+  -- refresh aspect list dropdown --
+  ----------------------------------
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.AspectListDropdown) then
+    DebugPrint { Text = "Refreshing AsepctListDropdown"}
+    local aspectDropdownOptions = {["Default"] = {
+      event = function (dropdown)
+        HypermoddedMenu.CurrentAspect = BoonControl.WeaponAspectData[weaponIndex][1]
+        DebugPrint { Text = "calling default aspecct dropdown list refresh" }
+        RefreshUIComponents(screen, {
+          ComponentsToRefresh = { 
+            HypermoddedMenu.Keys.HermesDropdown,
+            HypermoddedMenu.Keys.SecondGodDropdown,
+            HypermoddedMenu.Keys.FirstHammerDropdown,
+            HypermoddedMenu.Keys.SecondHammerDropdown,
+          }
+        })
+      end,
+      Text = BoonControl.WeaponAspectData[weaponIndex][1]
+    }}
+
+    for j = 1, TableLength(BoonControl.WeaponAspectData[weaponIndex].Aspects) do
+      local aspectID = BoonControl.WeaponAspectData[weaponIndex].Aspects[j]
+      table.insert(aspectDropdownOptions, {
+        event = function (dropdown)
+          -- on update, refresh 1) Hermes, 2) Second God UI, 3, hammers
+          HypermoddedMenu.CurrentAspect = aspectID
+          RefreshUIComponents(screen, {
+            ComponentsToRefresh = { 
+              HypermoddedMenu.Keys.HermesDropdown,
+              HypermoddedMenu.Keys.SecondGodDropdown,
+              HypermoddedMenu.Keys.FirstHammerDropdown,
+              HypermoddedMenu.Keys.SecondHammerDropdown,
+            }
+          })
+        end,
+        Text = aspectID
+      })
+    end
+    UpdateDropdown(screen, HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.AspectListDropdown], aspectDropdownOptions, 1)
+  end
+  
+  --------------------------------------
+  -- end aspect list dropdown refresh --
+  -- begin SecondGodDropdown refresh  --
+  --------------------------------------
+  
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondGodDropdown) then
+    UpdateDropdown(
+      screen,
+      HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.SecondGodDropdown],
+      GetSecondGodDropdownOptions(currentAspectName),
+      ForceSecondGod.config.AspectSettings[currentAspectName]
+    )
+  end
+
+  
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.HermesDropdown) then
+    UpdateDropdown(
+      screen,
+      HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.HermesDropdown],
+      GetHermesDropdownOptions(currentAspectName),
+      BoonControl.config.AspectSettings[currentAspectName].BoonSetting
+    )
+  end
+
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.FirstHammerDropdown) then
+    UpdateDropdown(
+      screen,
+      HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.FirstHammerDropdown],
+      GetHammerDropdownOptions(currentAspectName, 1),
+      -1
+    )
+  end
+
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondHammerDropdown) then
+    UpdateDropdown(
+      screen,
+      HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.SecondHammerDropdown],
+      GetHammerDropdownOptions(currentAspectName, 2),
+      -1
+    )
+  end
+end
+
+function CreateHermesUI ( screen )
+  
+end
+
+function CreateSecondGodUI ( screen, aspect, xpos, ypos )
+  -- Create "menu disabled" text
+  local itemSpacingX = 250
+  screen.Components["ForceSecondSettingsTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = xpos,
+    Y = ypos,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["ForceSecondSettingsTextBox"].Id,
+    Text = "Select Tartarus Miniboss God Offering:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+      OffsetX = 0, OffsetY = 0,
+      Font = "AlegrayaSansSCRegular",
+      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+      Justification = "Left"
+    })
+  CreateSecondGodPicker( screen, aspect, xpos + itemSpacingX * 3, ypos)
+end
+-- aspect is traitName
+function CreateHammerUI( screen, aspect, xpos, ypos, index )
+  -- input  is friendly name of hammer
+  -- config is friendly name of hammer
+  -- ui     is trait name    of hammer
+
+  -- trait name list
+  local aspectName = RCLib.CodeToName.Aspects[aspect]
+  local hammers = BoonControl.HammerOptions[aspectName]
+  -- trait
+
+  local defaultHammerName = BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name
+  local defaultHammerTrait = RCLib.NameToCode.Hammers[defaultHammerName]
+  local hammerOptions = {["Default"] = {
+    event = function(dropdown)
+      BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name = defaultHammerName
+    end,
+    Text = defaultHammerTrait, -- translated by UI framework to full Display Name
+  }}
+
+  local otherIndex = 3 - index
+  local otherHammerName = BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[otherIndex][1].Name
+  local otherHammerTrait = RCLib.NameToCode.Hammers[defaultHammerName]
+  for i, hammerTrait in pairs(hammers) do
+    local hammerName = RCLib.CodeToName.Hammers[hammerTrait]
+    if hammerTrait ~= otherHammerTrait then
+      table.insert(hammerOptions,
+      {
+        event = function(dropdown)
+          BoonControl.config.AspectSettings[aspectName].HammerSetting.ForceOnAppearanceNum[index][1].Name = hammerName
+        end,
+        Text = hammerTrait
+      })
+    end
+  end
+
+  local componentKeyMap = { HypermoddedMenu.Keys.FirstHammerDropdown, HypermoddedMenu.Keys.SecondHammerDropdown }
+  local componentKey = componentKeyMap[index]
+
+  HypermoddedMenu.UIComponents[componentKey] = ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = componentKey,
+    Group = "Combat_Menu",  
+    Scale = {X = .25, Y = .5},
+    Padding = {X = 0, Y = 2},
+    X = xpos, Y = ypos,
+    GeneralFontSize = 16,
+    Font = "AlegrayaSansSCRegular",
+    Items = hammerOptions
+  })
+end
+
+function HSMConfigMenu.CreateAspectMenu ( screen )
   local rowStartX = 250
   local itemLocationX = rowStartX
   local itemLocationY = 250
@@ -775,6 +989,9 @@ function HSMConfigMenu.CreateHermesMenu ( screen )
     return
   end
   itemLocationY = 500
+  ----------------------------
+  --  HERMES -----------------
+  ----------------------------
   --[[
     1. Create Weapon List Dropdown
     2. Create Aspect List Dropdown
@@ -783,136 +1000,8 @@ function HSMConfigMenu.CreateHermesMenu ( screen )
     5. Hermes Display
   ]]--
   -- 1. create weapon list
-  local weaponToDisplay = "SwordWeapon"
-  local currentAspect = "ZagreusSword"
-  local aspectDropdown = nil
-  local changeDisplayAspect = function(aspectID)
-    -- set icon
-    local aspectIcon = TraitData[aspectID].Icon .. "_Large"
-    SetAnimation({ DestinationId = screen.Components["AspectIcon"].Id, Name = aspectIcon})
-  end
-  -- TODO: fix Default Weapon list not updating icon
-
-  local updateHermesDropdown = nil
-
-  -- 4. On Select Function for Weapon List
-  local onWeaponListDropdownChange = function (aspects)
-    local hermesOptionsByAspect = {["Default"] = {
-      event = function (dropdown)
-        aspectToDisplay = aspects[1]
-      end,
-      Text = aspects[1]
-    }}
-    
-    for j = 1, TableLength(aspects) do
-      local aspectID = aspects[j]
-      table.insert(hermesOptionsByAspect, {
-        event = function (dropdown)
-          changeDisplayAspect(aspectID)
-          updateHermesDropdown(RCLib.CodeToName.Aspects[aspectID])
-        end,
-        Text = aspectID
-      })
-    end
-    UpdateDropdown(screen, aspectDropdown, hermesOptionsByAspect, 1)
-    -- TODO: update the current display text/default text? idk man
-    changeDisplayAspect(aspects[1])
-    updateHermesDropdown(RCLib.CodeToName.Aspects[aspects[1]])
-  end
-
-  local weaponOptions = {["Default"] = {
-    -- event = function (dropdown)
-    --   onWeaponListDropdownChange("SwordWeapon")
-    -- end,
-    Text = "SwordWeapon"
-  }}
-
-  -- setup weapon options
-  for i = 1, TableLength(RunStartControl.WeaponAspectData) do
-    local weaponData = RunStartControl.WeaponAspectData[i]
-    table.insert(weaponOptions, {
-      event = function (dropdown)
-        onWeaponListDropdownChange(weaponData.Aspects)
-      end,
-      Text = weaponData.Name
-    })
-  end
-
-  local hermesSettingsByAspectDropdown = nil
-
-  -- weapon dropdown
-  ErumiUILib.Dropdown.CreateDropdown(screen, {
-    Name = "HermesWeaponDropdown",
-    Group = "Combat_Menu",  
-    Scale = {X = .25, Y = .5},
-    Padding = {X = 0, Y = 2},
-    X = itemLocationX, Y = itemLocationY,
-    GeneralFontSize = 16,
-    Font = "AlegrayaSansSCRegular",
-    Items = weaponOptions,
-  })
-
-  updateHermesDropdown = function(aspect)
-    DebugPrint{
-      Text = "Updating hermes options for " .. aspect ..
-      " with a default of " .. BoonControl.config.AspectSettings[aspect].BoonSetting
-    }
-    local hermesBoonOptions = {["Default"] = {
-      Text = BoonControl.config.AspectSettings[aspect].BoonSetting
-    }}
-    
-    for k, v in pairs(BoonControl.BoonPresets) do
-      table.insert(hermesBoonOptions, {
-        event = function (dropdown)
-          DebugPrint { Text = "Updating " .. aspect .. " to " .. k}
-          BoonControl.config.AspectSettings[aspect].BoonSetting = k
-        end,
-        Text = k
-      })
-    end
-    UpdateDropdown(
-      screen,
-      hermesSettingsByAspectDropdown,
-      hermesBoonOptions,
-      BoonControl.config.AspectSettings[aspect].BoonSetting
-    )
-    
-  end
-
-  local onAspectChange = function(aspectID)
-
-    updateHermesDropdown(RCLib.CodeToName.Aspects[aspectID])
-  end
-
-  -- Create Hermes Control Menu
-  local hermesOptionsByAspect = {["Default"] = {
-    Text = RCLib.NameToCode.Aspects[currentAspect]
-  }}
-  
-
-  -- TODO - assert dependency / warning message if not
-  local weaponData = RunStartControl.WeaponAspectData[1]
-  for j = 1, TableLength(weaponData.Aspects) do
-      local aspectID = weaponData.Aspects[j]
-      table.insert(hermesOptionsByAspect, {
-        event = function (dropdown)
-          onAspectChange(aspectID)
-        end,
-        Text = aspectID
-      })
-  end
-
-  -- initial aspect list
-  aspectDropdown = ErumiUILib.Dropdown.CreateDropdown(screen, {
-    Name = "HermesAspectDropdown",
-    Group = "Combat_Menu",  
-    Scale = {X = .3, Y = .5},
-    Padding = {X = 0, Y = 2},
-    X = itemLocationX + itemSpacingX * 1.25, Y = itemLocationY,
-    GeneralFontSize = 16,
-    Font = "AlegrayaSansSCRegular",
-    Items = hermesOptionsByAspect,
-  })
+  HypermoddedMenu.CurrentWeapon = "SwordWeapon"
+  HypermoddedMenu.CurrentAspect = "SwordBaseUpgradeTrait"
 
   --Icon Display
   screen.Components["AspectIcon"] = CreateScreenComponent({
@@ -922,32 +1011,146 @@ function HSMConfigMenu.CreateHermesMenu ( screen )
     X = itemLocationX + itemSpacingX * 2.5,
     Y = itemLocationY 
   })
-  local aspectIcon = TraitData[RCLib.NameToCode.Aspects[currentAspect]].Icon .. "_Large"
-  SetAnimation({ DestinationId = screen.Components["AspectIcon"].Id, Name = aspectIcon})
-  
+  SetAnimation({
+    DestinationId = screen.Components["AspectIcon"].Id,
+    Name = TraitData[HypermoddedMenu.CurrentAspect].Icon .. "_Large"
+  })
 
-  itemLocationX = itemLocationX + itemSpacingX * 4
-  -- actual hermes boons options
-  hermesSettingsByAspectDropdown = ErumiUILib.Dropdown.CreateDropdown(screen, {
-    Name = "HermesBoonDropdown",
+  -- 4. On Select Function for Weapon List
+
+  local weaponOptions = {["Default"] = {
+    Text = "SwordWeapon"
+  }}
+
+  -- setup weapon options
+  for i = 1, TableLength(BoonControl.WeaponAspectData) do
+    local weaponData = BoonControl.WeaponAspectData[i]
+    table.insert(weaponOptions, {
+      event = function (dropdown)
+        HypermoddedMenu.CurrentWeapon = weaponData.Name
+        HypermoddedMenu.CurrentAspect = weaponData.Aspects[1]
+        RefreshUIComponents(screen, {
+          ComponentsToRefresh = {
+            HypermoddedMenu.Keys.AspectListDropdown,
+            HypermoddedMenu.Keys.HermesDropdown,
+            HypermoddedMenu.Keys.SecondGodDropdown,
+            HypermoddedMenu.Keys.FirstHammerDropdown,
+            HypermoddedMenu.Keys.SecondHammerDropdown,
+          }
+        })
+      end,
+      Text = weaponData.Name
+    })
+  end
+
+  -- weapon dropdown
+  HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.WeaponListDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = "HermesWeaponDropdown",
     Group = "Combat_Menu",  
     Scale = {X = .3, Y = .5},
     Padding = {X = 0, Y = 2},
     X = itemLocationX, Y = itemLocationY,
     GeneralFontSize = 16,
     Font = "AlegrayaSansSCRegular",
-    -- placeholder, this gets updated very quickly anyway
-    Items = {["Default"] = {
-      Text = BoonControl.config.AspectSettings[currentAspect].BoonSetting
-    }},
+    Items = weaponOptions,
+  })
+
+  -- Create Hermes Control Menu
+  -- initial aspect list
+  HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.AspectListDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = "HermesAspectDropdown",
+    Group = "Combat_Menu",  
+    Scale = {X = .3, Y = .5},
+    Padding = {X = 0, Y = 2},
+    X = itemLocationX + itemSpacingX * 1.25, Y = itemLocationY,
+    GeneralFontSize = 16,
+    Font = "AlegrayaSansSCRegular",
+    Items = {["Default"] = {}},
   })
   
-  updateHermesDropdown(currentAspect)
+
+  itemLocationX = itemLocationX + itemSpacingX * 3
+  itemLocationY = 400
+
+  screen.Components["HermesSettingsTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["HermesSettingsTextBox"].Id,
+    Text = "Select Hermes Preset:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+      OffsetX = 0, OffsetY = 0,
+      Font = "AlegrayaSansSCRegular",
+      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+      Justification = "Left"
+    })
+  -- actual hermes boons options
+  HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.HermesDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = "HermesBoonDropdown",
+    Group = "Combat_Menu",  
+    Scale = {X = .25, Y = .5},
+    Padding = {X = 0, Y = 2},
+    X = itemLocationX + itemSpacingX * 3, Y = itemLocationY,
+    GeneralFontSize = 16,
+    Font = "AlegrayaSansSCRegular",
+    -- placeholder, this gets updated very quickly anyway
+    Items = {["Default"] = {}},
+  })
+  itemLocationY = itemLocationY + itemSpacingY
+
+  -- second god options
+
+  if ForceSecondGod.config.Enabled then
+    -- local aspectID = weaponData.Aspects[j]
+    CreateSecondGodUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX, itemLocationY)
+    itemLocationY = itemLocationY + itemSpacingY
+  end
+  -- create first hammer options
+  if true then
+    -- TODO: config setting, number of hammers, etc
+    screen.Components["HammerSettingsTextBox"] = CreateScreenComponent({
+      Name = "BlankObstacle",
+      Scale = 1,
+      X = itemLocationX,
+      Y = itemLocationY,
+      Group = "Combat_Menu"
+    })
+    CreateTextBox({
+        Id = screen.Components["HammerSettingsTextBox"].Id,
+        Text = "Select Hammers:",
+        Color = Color.BoonPatchCommon,
+        FontSize = 16,
+        OffsetX = 0, OffsetY = 0,
+        Font = "AlegrayaSansSCRegular",
+        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+        Justification = "Left"
+    })
+    CreateHammerUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX + itemSpacingX * 2, itemLocationY, 1 )
+  end
+  -- create second hammer options
+  if true then
+    CreateHammerUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX + itemSpacingX * 3, itemLocationY, 2 )
+    itemLocationY = itemLocationY + itemSpacingY
+  end
+  RefreshUIComponents(screen, {
+    ComponentsToRefresh = {
+      HypermoddedMenu.Keys.AspectListDropdown,
+      HypermoddedMenu.Keys.HermesDropdown,
+      HypermoddedMenu.Keys.SecondGodDropdown,
+      HypermoddedMenu.Keys.FirstHammerDropdown,
+      HypermoddedMenu.Keys.SecondHammerDropdown,
+    }
+  })
 end
 
 ModUtil.LoadOnce(function()
     ModConfigMenu.RegisterMenuOverride({ModName = "Hypermodded"}, HSMConfigMenu.CreateHypermoddedMenu)
-    ModConfigMenu.RegisterMenuOverride({ModName = "Choice of Second God"}, HSMConfigMenu.CreateForceSecondGodMenu)
+    -- ModConfigMenu.RegisterMenuOverride({ModName = "Choice of Second God"}, HSMConfigMenu.CreateForceSecondGodMenu)
     ModConfigMenu.RegisterMenuOverride({ModName = "Misc. Trait Settings"}, HSMConfigMenu.CreateBoonControlMenu)
-    ModConfigMenu.RegisterMenuOverride({ModName = "Hermes Settings"}, HSMConfigMenu.CreateHermesMenu)
+    ModConfigMenu.RegisterMenuOverride({ModName = "Aspect Settings"}, HSMConfigMenu.CreateAspectMenu)
 end)
