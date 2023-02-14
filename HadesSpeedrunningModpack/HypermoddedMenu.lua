@@ -13,369 +13,287 @@ HypermoddedMenu = {
 }
 
 function HSMConfigMenu.CreateHypermoddedMenu( screen )
-    local rowStartX = 250
-    local itemLocationX = rowStartX
-    local itemLocationY = 250
-    local itemSpacingX = 250
-    local itemSpacingY = 65
+  local rowStartX = 250
+  local rowStartY = 300
+  local itemLocationX = rowStartX
+  local itemLocationY = rowStartY
+  local itemSpacingX = 250
+  local itemSpacingY = 65
 
-    -----------------
-    -- Chaos control settings
-    -----------------
-    screen.Components["ChaosSettingsTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-    })
-    CreateTextBox({
-        Id = screen.Components["ChaosSettingsTextBox"].Id,
-        Text = "Chaos Settings: ",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left",
-        Group = "Combat_Menu"
-    })
+  -----------------
+  -- Chaos control settings
+  -----------------
+  screen.Components["ChaosSettingsTextBox"] = CreateScreenComponent({
+      Name = "BlankObstacle",
+      Scale = 1,
+      X = itemLocationX,
+      Y = itemLocationY,
+      Group = "Combat_Menu"
+  })
+  CreateTextBox({
+      Id = screen.Components["ChaosSettingsTextBox"].Id,
+      Text = "Chaos Settings: ",
+      Color = Color.BoonPatchCommon,
+      FontSize = 16,
+      OffsetX = 0, OffsetY = 0,
+      Font = "AlegrayaSansSCRegular",
+      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+      Justification = "Left",
+      Group = "Combat_Menu"
+  })
 
-    local initialChaosSetting = ChaosControl.config.ChaosSetting
-    local chaosDropdownOptions = {["Default"] = {
-        event = function(dropdown)
-            ChaosControl.config.ChaosSetting = initialChaosSetting
-        end,
-        Text = initialChaosSetting,
-      }}
-      for k, v in pairs(ChaosControl.Presets) do
-        table.insert(chaosDropdownOptions,
-          {
-            event = function(dropdown)
-                ChaosControl.config.ChaosSetting = k
-            end,
-            Text = k
-          })
-      end
-    
-    ErumiUILib.Dropdown.CreateDropdown(screen, {
-        Name = "ChaosDropdown",
-        Group = "Combat_Menu",  
-        Scale = {X = .25, Y = .5},
-        Padding = {X = 0, Y = 2},
-        X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
-        GeneralFontSize = 16,
-        Font = "AlegrayaSansSCRegular",
-        Items = chaosDropdownOptions
-    })
-    itemLocationY = itemLocationY + itemSpacingY
+  local initialChaosSetting = ChaosControl.config.ChaosSetting
+  local chaosDropdownOptions = {["Default"] = {
+      event = function(dropdown)
+          ChaosControl.config.ChaosSetting = initialChaosSetting
+      end,
+      Text = initialChaosSetting,
+    }}
+    for k, v in pairs(ChaosControl.Presets) do
+      table.insert(chaosDropdownOptions,
+        {
+          event = function(dropdown)
+              ChaosControl.config.ChaosSetting = k
+          end,
+          Text = k
+        })
+    end
+  
+  ErumiUILib.Dropdown.CreateDropdown(screen, {
+      Name = "ChaosDropdown",
+      Group = "Combat_Menu",  
+      Scale = {X = .25, Y = .5},
+      Padding = {X = 0, Y = 2},
+      X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
+      GeneralFontSize = 16,
+      Font = "AlegrayaSansSCRegular",
+      Items = chaosDropdownOptions
+  })
+  itemLocationY = itemLocationY + itemSpacingY
 
-    -----------------
-    -- DarknessDenied settings
-    -----------------
-    -- title
-    screen.Components["DarknessDeniedTitleTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["DarknessDeniedTitleTextBox"].Id,
-        Text = "Hades's Moveset Options ",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      itemLocationY = itemLocationY + itemSpacingY * 0.5
+  -----------------
+  -- DarknessDenied settings
+  -----------------
+  -- title
+  screen.Components["DarknessDeniedTitleTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["DarknessDeniedTitleTextBox"].Id,
+    Text = "Hades's Moveset Options ",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  itemLocationY = itemLocationY + itemSpacingY * 0.5
 
-      -- all darkness
-      screen.Components["DarknessDeniedAllTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["DarknessDeniedAllTextBox"].Id,
-        Text = "Remove All Darknesses:",
-        Color = Color.BoonPatchCommon,
-        FontSize = 12,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      screen.Components["DarknessDeniedAllCheckBox"] = CreateScreenComponent({
-        Name = "RadioButton",
-        Scale = 1,
-        X = itemLocationX + itemSpacingX * 2,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      screen.Components["DarknessDeniedAllCheckBox"].Config = "DarknessDenied.config.RemoveDarkness"
-      screen.Components["DarknessDeniedAllCheckBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-      HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["DarknessDeniedAllCheckBox"])
-      itemLocationY = itemLocationY + itemSpacingY * 0.5
+  -- all darkness
+  screen.Components["DarknessDeniedAllTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["DarknessDeniedAllTextBox"].Id,
+    Text = "Remove All Darknesses:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 12,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  screen.Components["DarknessDeniedAllCheckBox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 2,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["DarknessDeniedAllCheckBox"].Config = "DarknessDenied.config.RemoveDarkness"
+  screen.Components["DarknessDeniedAllCheckBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["DarknessDeniedAllCheckBox"])
+  itemLocationY = itemLocationY + itemSpacingY * 0.5
 
-      -- insta-darkness
-      screen.Components["DarknessDeniedInstantTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["DarknessDeniedInstantTextBox"].Id,
-        Text = "Remove Only Insta-Darknesses:",
-        Color = Color.BoonPatchCommon,
-        FontSize = 12,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      screen.Components["DarknessDeniedInstantEnabledBox"] = CreateScreenComponent({
-        Name = "RadioButton",
-        Scale = 1,
-        X = itemLocationX + itemSpacingX * 2,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      screen.Components["DarknessDeniedInstantEnabledBox"].Config = "DarknessDenied.config.RemoveInstadarkness"
-      screen.Components["DarknessDeniedInstantEnabledBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-      HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["DarknessDeniedInstantEnabledBox"])
-      itemLocationY = itemLocationY + itemSpacingY
+  -- insta-darkness
+  screen.Components["DarknessDeniedInstantTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["DarknessDeniedInstantTextBox"].Id,
+    Text = "Remove Only Insta-Darknesses:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 12,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  screen.Components["DarknessDeniedInstantEnabledBox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 2,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["DarknessDeniedInstantEnabledBox"].Config = "DarknessDenied.config.RemoveInstadarkness"
+  screen.Components["DarknessDeniedInstantEnabledBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["DarknessDeniedInstantEnabledBox"])
+  itemLocationY = itemLocationY + itemSpacingY
 
-    -----------------
-    -- EnemyControl settings
-    -----------------
-    screen.Components["EnemySettingsTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-    })
-    CreateTextBox({
-        Id = screen.Components["EnemySettingsTextBox"].Id,
-        Text = "Enemy Settings: ",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-    })
+  -----------------
+  -- EnemyControl settings
+  -----------------
+  screen.Components["EnemySettingsTextBox"] = CreateScreenComponent({
+      Name = "BlankObstacle",
+      Scale = 1,
+      X = itemLocationX,
+      Y = itemLocationY,
+      Group = "Combat_Menu"
+  })
+  CreateTextBox({
+      Id = screen.Components["EnemySettingsTextBox"].Id,
+      Text = "Enemy Settings: ",
+      Color = Color.BoonPatchCommon,
+      FontSize = 16,
+      OffsetX = 0, OffsetY = 0,
+      Font = "AlegrayaSansSCRegular",
+      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+      Justification = "Left"
+  })
 
-    local initialEnemyControlSetting = EnemyControl.config.EnemySetting
-    local enemyControlOptions = {["Default"] = {
-        event = function(dropdown)
-            EnemyControl.config.EnemySetting = initialEnemyControlSetting
-        end,
-        Text = initialEnemyControlSetting,
-      }}
-      for k, v in pairs(EnemyControl.Presets) do
-        table.insert(enemyControlOptions,
-          {
-            event = function(dropdown)
-                EnemyControl.config.EnemySetting = k
-            end,
-            Text = k
-          })
-      end
-    
-    ErumiUILib.Dropdown.CreateDropdown(screen, {
-        Name = "EnemyControlDropDown",
-        Group = "Combat_Menu",  
-        Scale = {X = .25, Y = .5},
-        Padding = {X = 0, Y = 2},
-        X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
-        GeneralFontSize = 16,
-        Font = "AlegrayaSansSCRegular",
-        Items = enemyControlOptions
-    })
-    itemLocationY = itemLocationY + itemSpacingY
+  local initialEnemyControlSetting = EnemyControl.config.EnemySetting
+  local enemyControlOptions = {["Default"] = {
+      event = function(dropdown)
+          EnemyControl.config.EnemySetting = initialEnemyControlSetting
+      end,
+      Text = initialEnemyControlSetting,
+    }}
+    for k, v in pairs(EnemyControl.Presets) do
+      table.insert(enemyControlOptions,
+        {
+          event = function(dropdown)
+              EnemyControl.config.EnemySetting = k
+          end,
+          Text = k
+        })
+    end
+  
+  ErumiUILib.Dropdown.CreateDropdown(screen, {
+      Name = "EnemyControlDropDown",
+      Group = "Combat_Menu",  
+      Scale = {X = .25, Y = .5},
+      Padding = {X = 0, Y = 2},
+      X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
+      GeneralFontSize = 16,
+      Font = "AlegrayaSansSCRegular",
+      Items = enemyControlOptions
+  })
+  itemLocationY = itemLocationY + itemSpacingY
 
 
-    -----------------
-    -- ForceSecondGod settings
-    -----------------
-      screen.Components["ForceSecondGodEnabledTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["ForceSecondGodEnabledTextBox"].Id,
-        Text = "Enable Choice of Second God:",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      
-      screen.Components["ForceSecondGodEnabledCheckbox"] = CreateScreenComponent({
-        Name = "RadioButton",
-        Scale = 1,
-        X = itemLocationX + itemSpacingX * 2,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      screen.Components["ForceSecondGodEnabledCheckbox"].Config = "ForceSecondGod.config.Enabled"
-      screen.Components["ForceSecondGodEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-      HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["ForceSecondGodEnabledCheckbox"])
-    itemLocationY = itemLocationY + itemSpacingY * 0.5
-      screen.Components["ForceSecondGodNoteTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["ForceSecondGodNoteTextBox"].Id,
-        Text = "(select Gods by aspect on next page)",
-        Color = Color.BoonPatchCommon,
-        FontSize = 12,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
+  -----------------
+  -- ForceSecondGod settings
+  -----------------
+  screen.Components["ForceSecondGodEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["ForceSecondGodEnabledTextBox"].Id,
+    Text = "Enable Choice of Second God:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  
+  screen.Components["ForceSecondGodEnabledCheckbox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 2,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["ForceSecondGodEnabledCheckbox"].Config = "ForceSecondGod.config.Enabled"
+  screen.Components["ForceSecondGodEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["ForceSecondGodEnabledCheckbox"])
+  itemLocationY = itemLocationY + itemSpacingY * 0.5
+  screen.Components["ForceSecondGodNoteTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["ForceSecondGodNoteTextBox"].Id,
+    Text = "(select Gods by aspect on next page)",
+    Color = Color.BoonPatchCommon,
+    FontSize = 12,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
 
-      itemLocationY = itemLocationY + itemSpacingY
-    -----------------
-    -- FreeRoomControl settings
-    -----------------
-    screen.Components["FreeRoomControlEnabledTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["FreeRoomControlEnabledTextBox"].Id,
-        Text = "Prevent Free Room Conflicts:",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      
-      screen.Components["FreeRoomControlEnabledCheckbox"] = CreateScreenComponent({
-        Name = "RadioButton",
-        Scale = 1,
-        X = itemLocationX + itemSpacingX * 2,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      screen.Components["FreeRoomControlEnabledCheckbox"].Config = "FreeRoomControl.config.Enabled"
-      screen.Components["FreeRoomControlEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-      HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["FreeRoomControlEnabledCheckbox"])
+  itemLocationY = itemLocationY + itemSpacingY
+-----------------
+-- FreeRoomControl settings
+-----------------
+screen.Components["FreeRoomControlEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["FreeRoomControlEnabledTextBox"].Id,
+    Text = "Prevent Free Room Conflicts:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  
+  screen.Components["FreeRoomControlEnabledCheckbox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 2,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["FreeRoomControlEnabledCheckbox"].Config = "FreeRoomControl.config.Enabled"
+  screen.Components["FreeRoomControlEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["FreeRoomControlEnabledCheckbox"])
 
-      itemLocationY = itemLocationY + itemSpacingY
+  itemLocationY = itemLocationY + itemSpacingY
 
-    -----------------
-    -- SaytrSackControl short tunnel settings
-    -----------------
-    screen.Components["SatyrSackControlShortTunnelEnabledTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      CreateTextBox({
-        Id = screen.Components["SatyrSackControlShortTunnelEnabledTextBox"].Id,
-        Text = "Force Short Tunnels in Styx:",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-      })
-      
-      screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"] = CreateScreenComponent({
-        Name = "RadioButton",
-        Scale = 1,
-        X = itemLocationX + itemSpacingX * 2,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-      })
-      screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"].Config = "SatyrSackControl.config.ForceShortTunnels"
-      screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-      HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"])
-
-      itemLocationY = itemLocationY + itemSpacingY
-    -----------------
-    -- WellControl settings
-    -----------------
-    screen.Components["WellControlSettingsTextBox"] = CreateScreenComponent({
-        Name = "BlankObstacle",
-        Scale = 1,
-        X = itemLocationX,
-        Y = itemLocationY,
-        Group = "Combat_Menu"
-    })
-    CreateTextBox({
-        Id = screen.Components["WellControlSettingsTextBox"].Id,
-        Text = "Well Settings: ",
-        Color = Color.BoonPatchCommon,
-        FontSize = 16,
-        OffsetX = 0, OffsetY = 0,
-        Font = "AlegrayaSansSCRegular",
-        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-        Justification = "Left"
-    })
-
-    local initialWellControlOptions = WellControl.config.WellSetting
-    local wellControlOptions = {["Default"] = {
-        event = function(dropdown)
-            WellControl.config.WellSetting = initialWellControlOptions
-        end,
-        Text = initialWellControlOptions,
-      }}
-      for k, v in pairs(WellControl.Presets) do
-        table.insert(wellControlOptions,
-          {
-            event = function(dropdown)
-                WellControl.config.WellSetting = k
-            end,
-            Text = k
-          })
-      end
-    
-    ErumiUILib.Dropdown.CreateDropdown(screen, {
-        Name = "WellControlDropDown",
-        Group = "Combat_Menu",  
-        Scale = {X = .25, Y = .5},
-        Padding = {X = 0, Y = 2},
-        X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
-        GeneralFontSize = 16,
-        Font = "AlegrayaSansSCRegular",
-        Items = wellControlOptions
-    })
-    itemLocationY = itemLocationY + itemSpacingY
-
-    -----------------
-    -- BoonControl global enabled setting
-    -----------------
-    screen.Components["BoonControlEnabledTextBox"] = CreateScreenComponent({
+  -----------------
+  -- SaytrSackControl short tunnel settings
+  -----------------
+  screen.Components["SatyrSackControlShortTunnelEnabledTextBox"] = CreateScreenComponent({
       Name = "BlankObstacle",
       Scale = 1,
       X = itemLocationX,
@@ -383,8 +301,8 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
       Group = "Combat_Menu"
     })
     CreateTextBox({
-      Id = screen.Components["BoonControlEnabledTextBox"].Id,
-      Text = "Enable advanced boon control:",
+      Id = screen.Components["SatyrSackControlShortTunnelEnabledTextBox"].Id,
+      Text = "Force Short Tunnels in Styx:",
       Color = Color.BoonPatchCommon,
       FontSize = 16,
       OffsetX = 0, OffsetY = 0,
@@ -393,18 +311,333 @@ function HSMConfigMenu.CreateHypermoddedMenu( screen )
       Justification = "Left"
     })
     
-    screen.Components["BoonControlEnabledCheckBox"] = CreateScreenComponent({
+    screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"] = CreateScreenComponent({
       Name = "RadioButton",
       Scale = 1,
       X = itemLocationX + itemSpacingX * 2,
       Y = itemLocationY,
       Group = "Combat_Menu"
     })
-    screen.Components["BoonControlEnabledCheckBox"].Config = "BoonControl.config.Enabled"
-    screen.Components["BoonControlEnabledCheckBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
-    HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["BoonControlEnabledCheckBox"])
+    screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"].Config = "SatyrSackControl.config.ForceShortTunnels"
+    screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+    HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["SatyrSackControlShortTunnelEnabledCheckbox"])
 
     itemLocationY = itemLocationY + itemSpacingY
+  -----------------
+  -- WellControl settings
+  -----------------
+  screen.Components["WellControlSettingsTextBox"] = CreateScreenComponent({
+      Name = "BlankObstacle",
+      Scale = 1,
+      X = itemLocationX,
+      Y = itemLocationY,
+      Group = "Combat_Menu"
+  })
+  CreateTextBox({
+      Id = screen.Components["WellControlSettingsTextBox"].Id,
+      Text = "Well Settings: ",
+      Color = Color.BoonPatchCommon,
+      FontSize = 16,
+      OffsetX = 0, OffsetY = 0,
+      Font = "AlegrayaSansSCRegular",
+      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+      Justification = "Left"
+  })
+
+  local initialWellControlOptions = WellControl.config.WellSetting
+  local wellControlOptions = {["Default"] = {
+      event = function(dropdown)
+          WellControl.config.WellSetting = initialWellControlOptions
+      end,
+      Text = initialWellControlOptions,
+    }}
+    for k, v in pairs(WellControl.Presets) do
+      table.insert(wellControlOptions,
+        {
+          event = function(dropdown)
+              WellControl.config.WellSetting = k
+          end,
+          Text = k
+        })
+    end
+  
+  ErumiUILib.Dropdown.CreateDropdown(screen, {
+      Name = "WellControlDropDown",
+      Group = "Combat_Menu",  
+      Scale = {X = .25, Y = .5},
+      Padding = {X = 0, Y = 2},
+      X = itemLocationX + itemSpacingX * 2, Y = itemLocationY,
+      GeneralFontSize = 16,
+      Font = "AlegrayaSansSCRegular",
+      Items = wellControlOptions
+  })
+  itemLocationY = itemLocationY + itemSpacingY
+
+  -----------------
+  -- BoonControl global enabled setting
+  -----------------
+  screen.Components["BoonControlEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["BoonControlEnabledTextBox"].Id,
+    Text = "Enable advanced boon control:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  
+  screen.Components["BoonControlEnabledCheckBox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 2,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["BoonControlEnabledCheckBox"].Config = "BoonControl.config.Enabled"
+  screen.Components["BoonControlEnabledCheckBox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["BoonControlEnabledCheckBox"])
+
+  itemLocationY = itemLocationY + itemSpacingY
+  itemLocationX = itemLocationX + itemSpacingX * 3
+
+  -------------------------------------
+  -- SECOND ROW (BoonControl config) --
+  -------------------------------------
+  itemLocationY = rowStartY
+  -----------------
+  -- BoonControl.config.AllowHermesControl
+  -----------------
+  screen.Components["HermesControlEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["HermesControlEnabledTextBox"].Id,
+    Text = "Enable control of Hermes:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  
+  screen.Components["HermesControlControlEnabledCheckbox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 3,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["HermesControlControlEnabledCheckbox"].Config = "BoonControl.config.AllowHermesControl"
+  screen.Components["HermesControlControlEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["HermesControlControlEnabledCheckbox"])
+  itemLocationY = itemLocationY + itemSpacingY
+  -----------------
+  -- BoonControl.config.AllowOlympianControl
+  -----------------
+  screen.Components["OlympianControlEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["OlympianControlEnabledTextBox"].Id,
+    Text = "Enable control of other Olympians:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  
+  screen.Components["OlympianControlEnabledCheckbox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 3,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["OlympianControlEnabledCheckbox"].Config = "BoonControl.config.AllowOlympianControl"
+  screen.Components["OlympianControlEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["OlympianControlEnabledCheckbox"])
+  itemLocationY = itemLocationY + itemSpacingY
+
+  -----------------
+  -- BoonControl.config.AllowHammerControl
+  -----------------
+  
+  screen.Components["HammerControlTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["HammerControlTextBox"].Id,
+    Text = "Select number of hammers to control:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  local originalHammerValue = BoonControl.config.AllowedHammerControl
+  local textTable = { 
+    [0] = "None",
+    [1] = "One Hammer",
+    [2] = "Both Hammers"
+  }
+  local hammerOptions = {
+    Default = {
+      event = function (dropdown)
+        BoonControl.config.AllowedHammerControl = originalHammerValue
+      end,
+      Text = textTable[originalHammerValue]
+    },
+    [1] = {
+      event = function (dropdown)
+        BoonControl.config.AllowedHammerControl = 0
+      end,
+      Text = "None"
+    },
+    [2] = {
+      event = function (dropdown)
+        BoonControl.config.AllowedHammerControl = 1
+      end,
+      Text = "One Hammer"
+    },
+    [3] = {
+      event = function (dropdown)
+        BoonControl.config.AllowedHammerControl = 2
+      end,
+      Text = "Both Hammers"
+    },
+  }
+
+  ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = "HammerControlDropdown",
+    Group = "Combat_Menu",  
+    Scale = {X = .25, Y = .5},
+    Padding = {X = 0, Y = 2},
+    X = itemLocationX + itemSpacingX * 3, Y = itemLocationY,
+    GeneralFontSize = 16,
+    Font = "AlegrayaSansSCRegular",
+    Items = hammerOptions,
+  })
+  itemLocationY = itemLocationY + itemSpacingY
+  
+
+  -----------------
+  -- BoonControl.config.AllowRarityForce
+  -----------------
+  screen.Components["AllowRarityForceEnabledTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["AllowRarityForceEnabledTextBox"].Id,
+    Text = "Enable for always-epic Hermes:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  -- TODO: add note about all rarity force config possibilities but not leaderboard legal
+  
+  screen.Components["AllowRarityForceEnabledCheckbox"] = CreateScreenComponent({
+    Name = "RadioButton",
+    Scale = 1,
+    X = itemLocationX + itemSpacingX * 3,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  screen.Components["AllowRarityForceEnabledCheckbox"].Config = "BoonControl.config.AllowRarityForce"
+  screen.Components["AllowRarityForceEnabledCheckbox"].OnPressedFunctionName = "HSMConfigMenu__ToggleGenericConfigCheckBox"
+  HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["AllowRarityForceEnabledCheckbox"])
+  itemLocationY = itemLocationY + itemSpacingY
+
+  -----------------
+  -- BoonControl.config.FirstBoonAlwaysEpic/FirstBoonEpicOnPride
+  -----------------
+  
+  screen.Components["RarityControlTextBox"] = CreateScreenComponent({
+    Name = "BlankObstacle",
+    Scale = 1,
+    X = itemLocationX,
+    Y = itemLocationY,
+    Group = "Combat_Menu"
+  })
+  CreateTextBox({
+    Id = screen.Components["RarityControlTextBox"].Id,
+    Text = "Select first boon rarity settings:",
+    Color = Color.BoonPatchCommon,
+    FontSize = 16,
+    OffsetX = 0, OffsetY = 0,
+    Font = "AlegrayaSansSCRegular",
+    ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+    Justification = "Left"
+  })
+  local rarityOptions = {
+    Default = {
+      event = function () end,
+      Text = "Select an option"
+    },
+    [1] = {
+      event = function (dropdown)
+        BoonControl.config.FirstBoonAlwaysEpic = false
+        BoonControl.config.FirstBoonEpicOnPride = false
+      end,
+      Text = "Vanilla"
+    },
+    [2] = {
+      event = function (dropdown)
+        BoonControl.config.FirstBoonAlwaysEpic = false
+        BoonControl.config.FirstBoonEpicOnPride = true
+      end,
+      Text = "Epic on God's Pride"
+    },
+    [3] = {
+      event = function (dropdown)
+        BoonControl.config.FirstBoonAlwaysEpic = true
+        BoonControl.config.FirstBoonEpicOnPride = true
+      end,
+      Text = "Always Epic"
+    },
+  }
+
+  ErumiUILib.Dropdown.CreateDropdown(screen, {
+    Name = "RarityControlDropdown",
+    Group = "Combat_Menu",  
+    Scale = {X = .35, Y = .5},
+    Padding = {X = 0, Y = 2},
+    X = itemLocationX + itemSpacingX * 3, Y = itemLocationY,
+    GeneralFontSize = 16,
+    Font = "AlegrayaSansSCRegular",
+    Items = rarityOptions,
+  })
+  itemLocationY = itemLocationY + itemSpacingY
 end
 
 function CreateSecondGodPicker( screen, aspect, xpos, ypos)
@@ -533,12 +766,18 @@ function HSMConfigMenu.CreateBoonControlMenu ( screen )
     ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
     Justification = "Left"
   })
+  local originalHammerValue = BoonControl.config.AllowedHammerControl
+  local textTable = { 
+    [0] = "None",
+    [1] = "One Hammer",
+    [2] = "Both Hammers"
+  }
   local hammerOptions = {
     Default = {
       event = function (dropdown)
-        BoonControl.config.AllowedHammerControl = 0
+        BoonControl.config.AllowedHammerControl = originalHammerValue
       end,
-      Text = "None"
+      Text = textTable[originalHammerValue]
     },
     [1] = {
       event = function (dropdown)
@@ -766,6 +1005,7 @@ function GetHammerDropdownOptions( aspectName, index )
   return hammerOptions
 end
 
+
 function RefreshUIComponents ( screen, args )
   --[[
   args: {
@@ -841,7 +1081,8 @@ function RefreshUIComponents ( screen, args )
   -- begin SecondGodDropdown refresh  --
   --------------------------------------
   
-  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondGodDropdown) then
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondGodDropdown)
+    and ForceSecondGod.config.Enabled then
     UpdateDropdown(
       screen,
       HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.SecondGodDropdown],
@@ -851,7 +1092,8 @@ function RefreshUIComponents ( screen, args )
   end
 
   
-  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.HermesDropdown) then
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.HermesDropdown)
+    and BoonControl.config.Enabled and BoonControl.config.AllowHermesControl then
     UpdateDropdown(
       screen,
       HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.HermesDropdown],
@@ -860,7 +1102,8 @@ function RefreshUIComponents ( screen, args )
     )
   end
 
-  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.FirstHammerDropdown) then
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.FirstHammerDropdown)
+    and BoonControl.config.enabled and BoonControl.config.AllowedHammerControl >= 1 then
     UpdateDropdown(
       screen,
       HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.FirstHammerDropdown],
@@ -869,7 +1112,8 @@ function RefreshUIComponents ( screen, args )
     )
   end
 
-  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondHammerDropdown) then
+  if Contains(args.ComponentsToRefresh, HypermoddedMenu.Keys.SecondHammerDropdown)
+    and BoonControl.config.enabled and BoonControl.config.AllowedHammerControl >= 2 then
     UpdateDropdown(
       screen,
       HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.SecondHammerDropdown],
@@ -877,10 +1121,6 @@ function RefreshUIComponents ( screen, args )
       -1
     )
   end
-end
-
-function CreateHermesUI ( screen )
-  
 end
 
 function CreateSecondGodUI ( screen, aspect, xpos, ypos )
@@ -956,6 +1196,10 @@ function CreateHammerUI( screen, aspect, xpos, ypos, index )
   })
 end
 
+function CreateHermesUI (screen)
+
+end
+
 function HSMConfigMenu.CreateAspectMenu ( screen )
   local rowStartX = 250
   local itemLocationX = rowStartX
@@ -989,9 +1233,6 @@ function HSMConfigMenu.CreateAspectMenu ( screen )
     return
   end
   itemLocationY = 500
-  ----------------------------
-  --  HERMES -----------------
-  ----------------------------
   --[[
     1. Create Weapon List Dropdown
     2. Create Aspect List Dropdown
@@ -1015,8 +1256,6 @@ function HSMConfigMenu.CreateAspectMenu ( screen )
     DestinationId = screen.Components["AspectIcon"].Id,
     Name = TraitData[HypermoddedMenu.CurrentAspect].Icon .. "_Large"
   })
-
-  -- 4. On Select Function for Weapon List
 
   local weaponOptions = {["Default"] = {
     Text = "SwordWeapon"
@@ -1072,36 +1311,41 @@ function HSMConfigMenu.CreateAspectMenu ( screen )
   itemLocationX = itemLocationX + itemSpacingX * 3
   itemLocationY = 400
 
-  screen.Components["HermesSettingsTextBox"] = CreateScreenComponent({
-    Name = "BlankObstacle",
-    Scale = 1,
-    X = itemLocationX,
-    Y = itemLocationY,
-    Group = "Combat_Menu"
-  })
-  CreateTextBox({
-    Id = screen.Components["HermesSettingsTextBox"].Id,
-    Text = "Select Hermes Preset:",
-    Color = Color.BoonPatchCommon,
-    FontSize = 16,
-      OffsetX = 0, OffsetY = 0,
-      Font = "AlegrayaSansSCRegular",
-      ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
-      Justification = "Left"
+  ----------------------------
+  --  HERMES -----------------
+  ----------------------------
+  if BoonControl.config.Enabled and BoonControl.config.AllowHermesControl then
+    screen.Components["HermesSettingsTextBox"] = CreateScreenComponent({
+      Name = "BlankObstacle",
+      Scale = 1,
+      X = itemLocationX,
+      Y = itemLocationY,
+      Group = "Combat_Menu"
     })
-  -- actual hermes boons options
-  HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.HermesDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
-    Name = "HermesBoonDropdown",
-    Group = "Combat_Menu",  
-    Scale = {X = .25, Y = .5},
-    Padding = {X = 0, Y = 2},
-    X = itemLocationX + itemSpacingX * 3, Y = itemLocationY,
-    GeneralFontSize = 16,
-    Font = "AlegrayaSansSCRegular",
-    -- placeholder, this gets updated very quickly anyway
-    Items = {["Default"] = {}},
-  })
-  itemLocationY = itemLocationY + itemSpacingY
+    CreateTextBox({
+      Id = screen.Components["HermesSettingsTextBox"].Id,
+      Text = "Select Hermes Preset:",
+      Color = Color.BoonPatchCommon,
+      FontSize = 16,
+        OffsetX = 0, OffsetY = 0,
+        Font = "AlegrayaSansSCRegular",
+        ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
+        Justification = "Left"
+      })
+    -- actual hermes boons options
+    HypermoddedMenu.UIComponents[HypermoddedMenu.Keys.HermesDropdown] = ErumiUILib.Dropdown.CreateDropdown(screen, {
+      Name = "HermesBoonDropdown",
+      Group = "Combat_Menu",  
+      Scale = {X = .25, Y = .5},
+      Padding = {X = 0, Y = 2},
+      X = itemLocationX + itemSpacingX * 3, Y = itemLocationY,
+      GeneralFontSize = 16,
+      Font = "AlegrayaSansSCRegular",
+      -- placeholder, this gets updated very quickly anyway
+      Items = {["Default"] = {}},
+    })
+    itemLocationY = itemLocationY + itemSpacingY
+  end
 
   -- second god options
 
@@ -1111,8 +1355,7 @@ function HSMConfigMenu.CreateAspectMenu ( screen )
     itemLocationY = itemLocationY + itemSpacingY
   end
   -- create first hammer options
-  if true then
-    -- TODO: config setting, number of hammers, etc
+  if BoonControl.config.Enabled and BoonControl.config.AllowedHammerControl >= 1 then
     screen.Components["HammerSettingsTextBox"] = CreateScreenComponent({
       Name = "BlankObstacle",
       Scale = 1,
@@ -1130,13 +1373,18 @@ function HSMConfigMenu.CreateAspectMenu ( screen )
         ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
         Justification = "Left"
     })
-    CreateHammerUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX + itemSpacingX * 2, itemLocationY, 1 )
+    -- Space appropriately based on hammer control settings.
+    local dropdownSpacingFactor = (BoonControl.config.Enabled and BoonControl.config.AllowedHammerControl == 2) and 2 or 3
+    CreateHammerUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX + itemSpacingX * dropdownSpacingFactor, itemLocationY, 1 )
   end
   -- create second hammer options
-  if true then
+  if BoonControl.config.Enabled and BoonControl.config.AllowedHammerControl >= 2 then
     CreateHammerUI( screen, HypermoddedMenu.CurrentAspect, itemLocationX + itemSpacingX * 3, itemLocationY, 2 )
     itemLocationY = itemLocationY + itemSpacingY
   end
+
+  -- refresh UI to generate options
+  -- weapon list does not need to refresh since it is the highest in hierarchy
   RefreshUIComponents(screen, {
     ComponentsToRefresh = {
       HypermoddedMenu.Keys.AspectListDropdown,
@@ -1150,7 +1398,6 @@ end
 
 ModUtil.LoadOnce(function()
     ModConfigMenu.RegisterMenuOverride({ModName = "Hypermodded"}, HSMConfigMenu.CreateHypermoddedMenu)
-    -- ModConfigMenu.RegisterMenuOverride({ModName = "Choice of Second God"}, HSMConfigMenu.CreateForceSecondGodMenu)
-    ModConfigMenu.RegisterMenuOverride({ModName = "Misc. Trait Settings"}, HSMConfigMenu.CreateBoonControlMenu)
+    -- ModConfigMenu.RegisterMenuOverride({ModName = "Hypermodded (cont.)"}, HSMConfigMenu.CreateBoonControlMenu)
     ModConfigMenu.RegisterMenuOverride({ModName = "Aspect Settings"}, HSMConfigMenu.CreateAspectMenu)
 end)

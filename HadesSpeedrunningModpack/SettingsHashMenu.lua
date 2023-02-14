@@ -1,64 +1,3 @@
--- Table of all hashed config and their defaults.  Accessibility and Personalization config is not hashed.
--- TODO: Maybe populate some of this from the other mods themselves? To have a central menu, we already need to break modularity, so :shrug:
-HSMConfigMenu.RulesetSettings = {
-  {Key = "DontGetVorimed.config.Enabled", Values = {false, true}, Default = true},
-
-  {Key = "DoorVisualIndicators.config.ShowMinibossDoorIndicator", Values = {false, true}, Default = false},
-  {Key = "DoorVisualIndicators.config.ShowFountainDoorIndictor", Values = {false, true}, Default = true},
-
-  {Key = "EllosBoonSelectorMod.config.ShowPreview", Values = {false, true}, Default = false},
-
-  {Key = "RunStartControl.config.Enabled", Values = {false, true}, Default = true},
-
-  {Key = "InteractableChaos.config.Enabled", Values = {false, true}, Default = false},
-
-  {Key = "MinibossControl.config.MinibossSetting", Values = {"Vanilla", "HyperDelivery1", "HyperDelivery", "Leaderboard"}, Default = "Leaderboard"},
-
-  {Key = "RemoveCutscenes.config.RemoveIntro", Values = {false, true}, Default = true},
-  {Key = "RemoveCutscenes.config.RemoveOutro", Values = {false, true}, Default = true},
-
-  {Key = "RoomDeterminism.config.Enabled", Values = {false, true}, Default = false},
-  {Key = "RoomDeterminism.config.RoomGenerationAlgorithm", Values = {"Vanilla"}, Default = "Vanilla"},
-
-  {Key = "SatyrSackControl.config.Enabled", Values = {false, true}, Default = true},
-  {Key = "SatyrSackControl.config.MinSack", Values = {1, 2, 3, 4, 5}, Default = 2},
-  {Key = "SatyrSackControl.config.MaxSack", Values = {1, 2, 3, 4, 5}, Default = 2},
-
-  {Key = "ShowChamberNumber.config.ShowDepth", Values = {false, true}, Default = true},
-
-  {Key = "ThanatosControl.config.ThanatosSetting", Values = {"Vanilla", "Removed"}, Default = "Removed"},
-}
-
-HSMConfigMenu.MultiRunSettings = DeepCopyTable(HSMConfigMenu.RulesetSettings)
-HSMConfigMenu.SingleRunSettings = DeepCopyTable(HSMConfigMenu.RulesetSettings)
-for i, setting in ipairs(HSMConfigMenu.SingleRunSettings) do
-  if setting.Key == "ThanatosControl.config.ThanatosSetting" then
-    setting.Default = "Vanilla"
-    break
-  end
-end
-
-HSMConfigMenu.NonRulesetSettings = {
-  {Key = "QuickRestart.config.Enabled", Values = {false, true}, Default = false},
-
-  {Key = "ColorblindMod.config.TartarusEnabled", Values = {false, true}, Default = false},
-  {Key = "ColorblindMod.config.AsphodelEnabled", Values = {false, true}, Default = false},
-  {Key = "ColorblindMod.config.ElysiumEnabled", Values = {false, true}, Default = false},
-  {Key = "ColorblindMod.config.StyxEnabled", Values = {false, true}, Default = false},
-
-  {Key = "RtaTimer.config.DisplayTimer", Values = {false, true}, Default = false},
-  {Key = "RtaTimer.config.MultiWeapon", Values = {false, true}, Default = false},
-
-  {Key = "EmoteMod.config.Enabled", Values = {false, true}, Default = false},
-}
-
-HSMConfigMenu.SettingsDefaults = {
-  RulesetSettings = 769319,
-  MultiRunSettings = 769319,
-  SingleRunSettings = 769318,
-  NonRulesetSettings = 0
-}
-
 -- Register Room Override
 ModUtil.LoadOnce(function()
   ModConfigMenu.RegisterMenuOverride({ModName = "Ruleset Profiles"}, HSMConfigMenu.CreateSettingsHashMenu)
@@ -84,6 +23,10 @@ ModUtil.LoadOnce(function()
 end)
 
 function HSMConfigMenu.CreateSettingsHashMenu( screen )
+  
+  local h = CalculateHash(HSMConfigMenu.HypermoddedIGTSettings, _G)
+  local hHash =  HSMConfigMenu.ConvertIntToBase25(h, 5)
+  -- DebugPrint { Text = "h: " .. ModUtil.ToString.Deep(hHash)}
   ------------------
   -- Ruleset Hash
   ------------------
@@ -182,6 +125,34 @@ function HSMConfigMenu.CreateSettingsHashMenu( screen )
           HSMConfigMenu.updateRulesetHashDisplay()
           HSMConfigMenu.SaveSettingsToGlobal()
         end},
+        
+        {Text = "Hypermodded (IGT) Ruleset",  event = function() 
+          HSMConfigMenu.LoadSettings("HypermoddedIGTSettings")
+          local rulesetHashInt = CalculateHash(HSMConfigMenu.HypermoddedIGTSettings, _G)
+          local rulesetHash =  HSMConfigMenu.ConvertIntToBase25(rulesetHashInt, 5)
+          HSMConfigMenu.CurrentRulesetHash = rulesetHash
+
+          for i = 1, #rulesetHash do
+            SetAnimation({ Name = HSMConfigMenu.HashImages[rulesetHash[i]], DestinationId = screen.Components["RulesetHashImage" .. i].Id, OffsetX = 0, OffsetY = 0})
+          end
+
+          HSMConfigMenu.updateRulesetHashDisplay()
+          HSMConfigMenu.SaveSettingsToGlobal()
+        end},
+        
+        {Text = "Hypermodded (RTA) Ruleset",  event = function() 
+          HSMConfigMenu.LoadSettings("HypermoddedRTASettings")
+          local rulesetHashInt = CalculateHash(HSMConfigMenu.HypermoddedRTASettings, _G)
+          local rulesetHash =  HSMConfigMenu.ConvertIntToBase25(rulesetHashInt, 5)
+          HSMConfigMenu.CurrentRulesetHash = rulesetHash
+
+          for i = 1, #rulesetHash do
+            SetAnimation({ Name = HSMConfigMenu.HashImages[rulesetHash[i]], DestinationId = screen.Components["RulesetHashImage" .. i].Id, OffsetX = 0, OffsetY = 0})
+          end
+
+          HSMConfigMenu.updateRulesetHashDisplay()
+          HSMConfigMenu.SaveSettingsToGlobal()
+        end},
       },
     })
   itemLocationY = itemLocationY + 100
@@ -225,6 +196,7 @@ end
 
 function ToBits(num, numBits)
     -- returns a string of bits, most significant first.
+    -- DebugPrint { Text = "Num: " .. tostring(num) .. " numBits: " .. tostring(numBits)}
     numBits = numBits or select(2, math.frexp(num  - 1))
     local t = "" -- will contain the bits
     for b = numBits, 1, -1 do
@@ -237,12 +209,15 @@ end
 
 function GetConfigBits(parentTable, config)
   for i, val in ipairs(config.Values) do
+    -- DebugPrint{ Text = "Key: " .. config.Key .. ""}
     local currentConfigVal = ModUtil.IndexArray.Get(parentTable, ModUtil.Path.IndexArray(config.Key))
     if currentConfigVal == nil then
       currentConfigVal = config.Default -- One liner will not work for boolean values as it will be interpreted as a logical or
     end
     if currentConfigVal == val then
-      return ToBits(i - 1, select(2, math.frexp(#config.Values  - 1)))
+      local bits = ToBits(i - 1, select(2, math.frexp(#config.Values  - 1)))
+      -- DebugPrint{ Text = "Key: " .. config.Key .. ", Value (bits): " .. tostring(bits)}
+      return bits
     end
   end
   return ""
@@ -250,12 +225,13 @@ end
 
 function SetConfigBits(parentTable, config, configBits)
   local curConfigIndex = tonumber(configBits, 2)
-
+  
   local setValue = config.Values[curConfigIndex + 1]
   if setValue == nil then
     setValue = config.Default -- One liner will not work for boolean values as it will be interpreted as a logical or
   end
-
+  
+  -- DebugPrint { Text = "setting " .. config.Key .. " to " .. tostring(setValue) .. " derived from " .. tostring(configBits) .. " (" .. tostring(curConfigIndex).. ", " .. ModUtil.ToString.Deep(config.Values) ..")" }
   ModUtil.IndexArray.Set(parentTable, ModUtil.Path.IndexArray(config.Key), setValue)
 end
 
@@ -269,7 +245,7 @@ function CalculateHash(settings, parentTable)
   end
   -- Convert to decimal
   local hashInt = tonumber(hash, 2)
-  DebugPrint({Text = "hashInt: " .. hashInt})
+  -- DebugPrint({Text = "hashInt: " .. hashInt})
   return hashInt
 end
 
