@@ -38,6 +38,24 @@ for i, setting in ipairs(HSMConfigMenu.SingleRunSettings) do
   end
 end
 
+-- TODO: When merging with hypermodded changes, convert to full config and update hash key value
+HSMConfigMenu.FirstRunSettings = DeepCopyTable(HSMConfigMenu.RulesetSettings)
+for i, setting in ipairs(HSMConfigMenu.FirstRunSettings) do
+  setting.Values = {}
+  if setting.Key == "DontGetVorimed.config.Enabled" then
+    setting.Default = false
+  elseif setting.Key == "RemoveCutscenes.config.RemoveIntro" then
+    setting.Default = false --maybe not lol
+  elseif setting.Key == "RunStartControl.config.Enabled" then
+    setting.Default = false
+  elseif setting.Key == "MinibossControl.config.MinibossSetting" then
+    setting.Default = "FirstRun"
+  end
+end
+table.insert(HSMConfigMenu.FirstRunSettings, {Key = "RtaTimer.config.MultiWeapon", Values={}, Default = true})
+table.insert(HSMConfigMenu.FirstRunSettings, {Key = "RtaTimer.config.DisplayTimer", Values={}, Default = true})
+
+
 HSMConfigMenu.NonRulesetSettings = {
   {Key = "QuickRestart.config.Enabled", Values = {false, true}, Default = false},
 
@@ -56,6 +74,7 @@ HSMConfigMenu.SettingsDefaults = {
   RulesetSettings = 769319,
   MultiRunSettings = 769319,
   SingleRunSettings = 769318,
+  FirstRunSettings = 589095, -- TODO: update this hash value after integration with hypermodded
   NonRulesetSettings = 0
 }
 
