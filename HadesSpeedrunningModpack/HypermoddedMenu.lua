@@ -601,10 +601,30 @@ screen.Components["FreeRoomControlEnabledTextBox"] = CreateScreenComponent({
     ShadowBlur = 0, ShadowColor = { 0, 0, 0, 1 }, ShadowOffset = { 0,  2 },
     Justification = "Left"
   })
+
+  -- setup firstBoon default options and text based on existing config
+  local firstBoonAlwaysEpicSetting = BoonControl.config.FirstBoonAlwaysEpic
+  local firstBoonEpicOnPrideSetting = BoonControl.config.FirstBoonEpicOnPride
+
+  local firstBoonSettingText = "Select an option"
+  if BoonControl.config.FirstBoonAlwaysEpic == false and
+    BoonControl.config.FirstBoonEpicOnPride == false then
+      firstBoonSettingText = "Vanilla"
+  elseif BoonControl.config.FirstBoonAlwaysEpic == false and
+    BoonControl.config.FirstBoonEpicOnPride == true then
+      firstBoonSettingText = "Epic on God's Pride"
+  elseif BoonControl.config.FirstBoonAlwaysEpic == true and
+    BoonControl.config.FirstBoonEpicOnPride == true then
+      firstBoonSettingText = "Epic on God's Pride"
+  end
+
   local rarityOptions = {
     Default = {
-      event = function () end,
-      Text = "Select an option"
+      event = function ()
+        BoonControl.config.FirstBoonAlwaysEpic = firstBoonAlwaysEpicSetting
+        BoonControl.config.FirstBoonEpicOnPride = firstBoonEpicOnPrideSetting
+      end,
+      Text = firstBoonSettingText
     },
     [1] = {
       event = function (dropdown)
