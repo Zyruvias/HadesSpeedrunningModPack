@@ -12,6 +12,8 @@ HypermoddedMenu = {
   CurrentWeapon = nil,
 }
 
+SaveIgnores["HypermoddedMenu"] = true
+
 function HSMConfigMenu.CreateHypermoddedMenu( screen )
   local rowStartX = 250
   local rowStartY = 300
