@@ -1,0 +1,13 @@
+{
+    Texts = [
+        "_append"
+        {
+            Id = "Enable_Colorblind_Mode"
+            DisplayName = "Enable Color Blind Mode: "
+        }
+        {
+            Id = "More_Accessibility_Options_Contact"
+            DisplayName = "Accessiblity options missing something you need? Reach out to ellomenop#2254 on discord and I will see what I can do"
+        }
+    ]
+}

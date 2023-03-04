@@ -8,3 +8,6 @@ Load Priority 999999
   Import "SettingsHashMenu.lua"
   Import "HSMConfigMenu.lua"
   Import "AttributionAndNotes.lua"
+
+To "Game/Text/en/HelpText.en.sjson"
+SJSON "Localization/helptext.en.sjson"

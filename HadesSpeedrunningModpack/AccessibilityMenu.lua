@@ -101,7 +101,7 @@ function HSMConfigMenu.CreateAccessibilityMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["ColorblindPromptTextBox"].Id,
-    Text = "Enable Color Blind Mode: ",
+    Text = "Enable_Colorblind_Mode",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -169,7 +169,7 @@ function HSMConfigMenu.CreateAccessibilityMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["AccessibilityNoteTextBox"].Id,
-    Text = "Accessiblity options missing something you need? Reach out to ellomenop#2254 on discord and I will see what I can do",
+    Text = "More_Accessibility_Options_Contact",
     Color = Color.Gray,
     FontSize = 14,
     OffsetX = 0, OffsetY = 0,
