@@ -19,7 +19,7 @@ function HSMConfigMenu.CreatePersonalizationMenu(screen)
   })
   CreateTextBox({
     Id = screen.Components["ModdedWarningCustomizationPrompt"].Id,
-    Text = "Customize your Modded Warning: ",
+    Text = "Customize_Modded_Warning",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,

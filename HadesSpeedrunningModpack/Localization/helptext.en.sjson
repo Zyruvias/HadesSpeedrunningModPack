@@ -9,5 +9,154 @@
             Id = "More_Accessibility_Options_Contact"
             DisplayName = "Accessiblity options missing something you need? Reach out to ellomenop#2254 on discord and I will see what I can do"
         }
+        {
+            Id = "Customize_Modded_Warning"
+            DisplayName = "Customize your Modded Warning: "
+        }
+        {
+            Id = "Show_Chamber_Number"
+            DisplayName = "Show Chamber Number: "
+        }
+        {
+            Id = "Disable_Intro_Cutscene"
+            DisplayName = "Disable Intro Cutscene: "
+        }
+        {
+            Id = "Disable_Outro_Cutscene"
+            DisplayName = "Disable Outro Cutscene: "
+        }
+        {
+            Id = "Quick_Restart"
+            DisplayName = "Quick Restart: "
+        }
+        {
+            Id = "Quick_Restart_Hint"
+            DisplayName = "(Interact + Reload + Call + Summon) "
+        }
+        {
+            Id = "Quick_Restart_Keepsake"
+            DisplayName = " - Re-equip Starting Keepsake: "
+        }
+        {
+            Id = "Quick_Restart_Death"
+            DisplayName = "Enable Quick Death:"
+        }
+        {
+            Id = "Force_Charon_Sack"
+            DisplayName = "Force Charon Sack Spawn: "
+        }
+        {
+            Id = "RTA_Timer_Show"
+            DisplayName = "Show RTA Timer: "
+        }
+        {
+            Id = "RTA_Timer_Multi_Mode"
+            DisplayName = " - Use Multi-Run Mode: "
+        }
+        {
+            Id = "RTA_Timer_Reset_Text"
+            DisplayName = "Reset Timer\\n(for MultiRun)"
+        }
+        {
+            Id = "Hell_Mode_Text"
+            DisplayName = "Turn Hell Mode On/Off:"
+        }
+        {
+            Id = "Hell_Mode_Toggle"
+            DisplayName = "Toggle Hell Mode"
+        }
+        {
+            Id = "Use_Modded_Satyr_Sack"
+            DisplayName = "Use Modded Saytr Sack: "
+        }
+        {
+            Id = "Satyr_Sack_Min_Tunnel"
+            DisplayName = " - Min Tunnel for Sack: "
+        }
+        {
+            Id = "Satyr_Sack_Max_Tunnel"
+            DisplayName = " - Max Tunnel for Sack: "
+        }
+        {
+            Id = "Anti_Vorime"
+            DisplayName = "Remove Getting Vorime'd: "
+        }
+        {
+            Id = "Thanatos_Setting"
+            DisplayName = "Thanatos: "
+        }
+        {
+            Id = "Interactable_Chaos"
+            DisplayName = "Chaos: "
+        }
+        {
+            Id = "Minibosses_Setting"
+            DisplayName = "Minibosses: "
+        }
+        {
+            Id = "Miniboss_Door_Setting"
+            DisplayName = "Miniboss Door Preview: "
+        }
+        {
+            Id = "Fountain_Preview_Setting"
+            DisplayName = "Fountain Door Preview: "
+        }
+        {
+            Id = "Boon_Selector_Preview"
+            DisplayName = "Show Boon Selector Preview: "
+        }
+        {
+            Id = "Deterministic_Rooms"
+            DisplayName = "Deterministic Rooms by Seed: "
+        }
+        {
+            Id = "Deterministic_Rooms_Note"
+            DisplayName = "(Only Tartarus through Elysium) "
+        }
+        {
+            Id = "Deterministic_Enemies"
+            DisplayName = "Deterministic Enemies by Seed: "
+        }
+        {
+            Id = "Not_Yet_Implemented"
+            DisplayName = "(Not Yet Implemented) "
+        }
+        {
+            Id = "Set_Hammers_By_Aspect"
+            DisplayName = "Set Hammers by Aspect: "
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        {
+            Id = ""
+            DisplayName = ""
+        }
+        
     ]
 }

@@ -88,7 +88,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["SackModdedTextBox"].Id,
-    Text = "Use Modded Saytr Sack: ",
+    Text = "Use_Modded_Satyr_Sack",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -193,7 +193,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["SackMinTextBox"].Id,
-    Text = " - Min Tunnel for Sack: ",
+    Text = "Satyr_Sack_Min_Tunnel",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -229,7 +229,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["SackMaxTextBox"].Id,
-    Text = " - Max Tunnel for Sack: ",
+    Text = "Satyr_Sack_Max_Tunnel",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -269,7 +269,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["DGVTextBox"].Id,
-    Text = "Remove Getting Vorime'd: ",
+    Text = "Anti_Vorime",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -300,7 +300,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["ThanTextBox"].Id,
-    Text = "Thanatos: ",
+    Text = "Thanatos_Setting",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -346,7 +346,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["ChaosTextBox"].Id,
-    Text = "Chaos: ",
+    Text = "Interactable_Chaos",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -400,7 +400,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["MinibossTextBox"].Id,
-    Text = "Minibosses: ",
+    Text = "Minibosses_Setting",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -449,7 +449,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["MinibossVisualIndicatorTextBox"].Id,
-    Text = "Miniboss Door Preview: ",
+    Text = "Miniboss_Door_Setting",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -478,7 +478,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["FountainVisualIndicatorTextBox"].Id,
-    Text = "Fountain Door Preview: ",
+    Text = "Fountain_Preview_Setting",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -507,7 +507,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["BoonSelectorTextBox"].Id,
-    Text = "Show Boon Selector Preview: ",
+    Text = "Boon_Selector_Preview",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -548,7 +548,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["RoomDeterminismTextBox"].Id,
-    Text = "Deterministic Rooms by Seed: ",
+    Text = "Deterministic_Rooms",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -568,7 +568,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   HSMConfigMenu__UpdateGenericConfigCheckbox(screen, screen.Components["RoomDeterminismCheckBox"])
   CreateTextBox({
     Id = screen.Components["RoomDeterminismTextBox"].Id,
-    Text = "(Only Tartarus through Elysium) ",
+    Text = "Deterministic_Rooms_Note",
     Color = Color.BoonPatchCommon,
     FontSize = 10,
     OffsetX = 0, OffsetY = 22,
@@ -588,7 +588,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["EnemyDeterminismTextBox"].Id,
-    Text = "Deterministic Enemies by Seed: ",
+    Text = "Deterministic_Enemies",
     Color = {1, 0, 0, 0.4},
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -605,7 +605,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["EnemyDeterminismTextBox"].Id,
-    Text = "(Not Yet Implemented) ",
+    Text = "Not_Yet_Implemented",
     Color = {1, 0, 0, 0.4},
     FontSize = 10,
     OffsetX = 0, OffsetY = 22,
@@ -625,7 +625,7 @@ function HSMConfigMenu.CreateRNGMenu( screen )
   })
   CreateTextBox({
     Id = screen.Components["HammerControlTextBox"].Id,
-    Text = "Set Hammers by Aspect: ",
+    Text = "Set_Hammers_By_Aspect",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,

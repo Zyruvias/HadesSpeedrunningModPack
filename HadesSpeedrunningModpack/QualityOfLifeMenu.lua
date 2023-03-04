@@ -18,7 +18,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["ChamberNumberTextBox"].Id,
-    Text = "Show Chamber Number: ",
+    Text = "Show_Chamber_Number",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -49,7 +49,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["DisableIntroTextBox"].Id,
-    Text = "Disable Intro Cutscene: ",
+    Text = "Disable_Intro_Cutscene",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -77,7 +77,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["DisableOuttroTextBox"].Id,
-    Text = "Disable Outro Cutscene: ",
+    Text = "Disable_Outro_Cutscene",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -108,7 +108,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["RestartTextBox"].Id,
-    Text = "Quick Restart: ",
+    Text = "Quick_Restart",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -118,7 +118,9 @@ function HSMConfigMenu.CreateQolMenu(screen)
   })
   CreateTextBox({
     Id = screen.Components["RestartTextBox"].Id,
-    Text = "(Interact + Reload + Call + Summon) ",
+    -- Text = "({I} Interact + {RL} Reload + {SH} Call + {AS} Summon)",
+    -- Text = "(Interact + Reload + Call + Summon) ",
+    Text = "Quick_Restart_Hint",
     Color = Color.BoonPatchCommon,
     FontSize = 10,
     OffsetX = 0, OffsetY = 22,
@@ -147,7 +149,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["StartingKeepsakeTextBox"].Id,
-    Text = " - Re-equip Starting Keepsake: ",
+    Text = "Quick_Restart_Keepsake",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -179,7 +181,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["QuickDeathTextBox"].Id,
-    Text = "Enable Quick Death:",
+    Text = "Quick_Restart_Death",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -211,7 +213,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["CharonSackControlTextBox"].Id,
-    Text = "Force Charon Sack Spawn: ",
+    Text = "Force_Charon_Sack",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -248,7 +250,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["RtaTimerTextBox"].Id,
-    Text = "Show RTA Timer: ",
+    Text = "RTA_Timer_Show",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -276,7 +278,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["RtaTimerMultiRunTextBox"].Id,
-    Text = " - Use Multi-Run Mode: ",
+    Text = "RTA_Timer_Multi_Mode",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -307,7 +309,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
 
   CreateTextBox({
     Id = screen.Components["RtaTimerResetButton"].Id,
-    Text = "Reset Timer\\n(for MultiRun)",
+    Text = "RTA_Timer_Reset_Text",
     Color = Color.BoonPatchCommon,
     FontSize = 12,
     OffsetX = 0, OffsetY = 0,
@@ -329,7 +331,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
     Group = "Combat_Menu" })
   CreateTextBox({
     Id = screen.Components["HellModeToggleTextBox"].Id,
-    Text = "Turn Hell Mode On/Off:",
+    Text = "Hell_Mode_Text",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
@@ -350,7 +352,7 @@ function HSMConfigMenu.CreateQolMenu(screen)
 
   CreateTextBox({
     Id = screen.Components["HellModeToggleButton"].Id,
-    Text = "Toggle Hell Mode",
+    Text = "Hell_Mode_Toggle",
     Color = Color.BoonPatchCommon,
     FontSize = 16,
     OffsetX = 0, OffsetY = 0,
